@@ -1,0 +1,143 @@
+<div class="content">
+  <div class="col-md-9">
+    <table class="table table1 border center shadow">
+      <tr ngclass="btn-primary" style="background-color: #1A6F76; color: white;">
+        <th class="tbl2">Item Image</th>
+        <th></th>
+        <th class="tbl2">Item Name</th>
+        <th class="tbl2">Price</th>
+        <th class="tbl2">Quantity</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let item of selectedItems">
+        <td class="tbl2">
+          <img src="../../../assets/images/{{item.itemImage}}" style="width:60px;height:60px; border-radius: 50%;">
+        </td>
+        <td>
+          <div class="row">
+            <div class="col-md-6 star-rating-container star-rating-animation" fxLayout="row"
+              fxLayoutAlign="start center">
+              <rating [(ngModel)]="item.itemReview" [max]="5" [readonly]="true" class="star-gold star"></rating>
+            </div>
+          </div>
+        </td>
+        <td class="tbl2">{{item.itemName}}</td>
+        <td class="tbl2">£{{item.itemPrice}}</td>
+        <td class="tbl2">
+          <div class="input-group" style="justify-content: center;">
+            <i style="color: #1A6F76; align-self: center;" class="fa fa-minus-square" aria-hidden="true"
+              (click)="removeItemCount(item.itemId)"></i>
+            <p style="color: black; width: 1.5em; text-align: center;margin-top: 10px;">{{item.itemQty}}</p>
+            <i style="color: #1A6F76; align-self: center;" class="fa fa-plus-square" aria-hidden="true"
+              (click)="addItemCount(item.itemId)"></i>
+          </div>
+        </td>
+        <td class="tbl2">£{{item.itemQty * item.itemPrice}}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td *ngIf="paymentDisplay"></td>
+        <td *ngIf="!paymentDisplay" style="color: black;"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart is
+          Empty</td>
+        <td></td>
+        <td><i class="fa fa-credit-card-alt" aria-hidden="true"></i>Total Payment</td>
+        <td>£{{totalPayment()}}</td>
+      </tr>
+    </table>
+    <br>
+    <div *ngIf="paymentDisplay" class="payment-center">
+      <div style="color: black; text-align: center;"> This is a payment design that can take any fake details. This does
+        not contains any payment gateway to do payment.</div>
+      <br>
+      <br>
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+              <div style="margin-left:1em">Payment</div>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form [formGroup]="paymentForm" (ngSubmit)="onPayment()">
+            <table class="table table2">
+              <tr>
+                <td><i class="fa fa-credit-card" aria-hidden="true"></i><label class="form-label">Card Number</label>
+                </td>
+                <td>
+                  <input type="text" formControlName="cardNumber" class="form-control"
+                    [textMask]="{mask: cardMaskFunction, guide: false, showMask: true}"
+                    [ngClass]="{'is-invalid': pf['cardNumber'].touched && pf['cardNumber'].errors}"
+                    placeholder="xxxx xxxx xxxx xxxx" (ngModelChange)="CardDetails($event)">
+                  <div *ngIf="pf['cardNumber'].errors && pf['cardNumber'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['cardNumber'].errors['required']">Card Number is required</div>
+                    <div *ngIf="pf['cardNumber'].errors['luhnValidator']">
+                      invalid Card Number
+                    </div>
+                  </div>
+                </td>
+                <td></td>
+                <td><img *ngIf="cardLogoDisplay" src="../../../assets/images/{{cardLogo}}" style="height: 50px;"></td>
+              </tr>
+              <tr>
+                <td><i class="fa fa-calendar-o" aria-hidden="true"></i><label class="form-label">Expiry Date</label>
+                </td>
+                <td><input type="date" min="{{currentDate}}" formControlName="expiryDate" class="form-control"
+                    [ngClass]="{'is-invalid': pf['expiryDate'].touched && pf['expiryDate'].errors}">
+                  <div *ngIf="pf['expiryDate'].errors && pf['expiryDate'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['expiryDate'].errors['required']">Expiry Date is required</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><label class="form-label">CVV</label></td>
+                <td><input type="password" formControlName="cvv" class="form-control"
+                    [ngClass]="{'is-invalid': pf['cvv'].touched && pf['cvv'].errors}" pattern="[0-9]{3}">
+                  <div *ngIf="pf['cvv'].errors && pf['cvv'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['cvv'].errors['required']">CVV is required</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><label class="form-label">Address</label></td>
+                <td><input type="text" formControlName="address" class="form-control"
+                    [ngClass]="{'is-invalid': pf['address'].touched && pf['address'].errors}">
+                  <div *ngIf="pf['address'].errors && pf['address'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['address'].errors['required']">Address is required</div>
+                  </div>
+                </td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td><label class="form-label">Postcode</label></td>
+                <td><input type="text" class="form-control" aria-label="State" (ngModelChange)="getPostCodes($event)" [matAutocomplete]="auto" formControlName="postcode"
+                  [ngClass]="{'is-invalid': pf['postcode'].touched && pf['postcode'].errors}" pattern="[A-Z0-9]{3}[ ]{1}[A-Z0-9]{3}">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option style="background-color: white;" *ngFor="let state of filteredpostcode | async" [value]="state.postcode">
+                      <span style="color: black;">{{state.postcode}}</span> 
+                    </mat-option>
+                  </mat-autocomplete>
+                  <div *ngIf="pf['postcode'].errors && pf['postcode'].touched" class="invalid-feedback">
+                    <div *ngIf="pf['postcode'].errors['required']">Postcode is required</div>
+                  </div>
+                </td>
+               <!-- <td><button style="border: 0ch;" (click)="cancel()" [disabled]="!paymentForm.valid"><i class="fa fa-times"
+                  aria-hidden="true"></i></button></td>-->
+            <td><button style="border: 0ch;" type="submit" [disabled]="!paymentForm.valid"><i class="fa fa-check"
+                  aria-hidden="true"></i></button></td>
+              </tr>
+            </table>
+           <!-- <div *ngIf="googleMapDisplay" #map style="height:450px;width:740px"></div>-->
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <br>
+  <br>
+</div>

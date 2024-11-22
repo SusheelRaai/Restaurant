@@ -1,0 +1,50 @@
+mat-card {
+    background-color: white;
+}
+
+.homecontent{
+    padding: 200px;
+    font-size: 35px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+p:hover{
+    -ms-transform: scale(1.2);
+    /* IE 9 */
+    -webkit-transform: scale(1.2);
+    /* Safari 3-8 */
+    transform: scale(1.2);
+}
+
+.small-headings{
+    color: coral;
+    font-weight: bold;
+}
+
+.main-headings{
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: justify;
+}
+
+.second-headings{
+    color: black;
+    font-family: Arial, Helvetica, Monospace;
+    text-align: justify;
+}
+
+
+.card-overlay {
+    background: rgba(51, 49, 49, 0.737);
+    height: 100vh;
+    min-height: 350px;
+  }
+
+  .carousel-item {
+    height: 100vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }

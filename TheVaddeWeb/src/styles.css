@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+
+.bg-class{
+   background-color:  #1A6F76;
+}
+
+.example-card {
+   max-width: 410px;
+   margin: 40px;
+   margin-left: 50px;
+   max-height: 370px;
+ }
+ 
+ .example-header-image {
+   background-image: url('./assets/images/Logo-bg.png');
+   background-size: cover;
+ }
+
+mat-card {
+   background-color: white;
+}
+
+
+.star{
+   margin: 0px 0px;
+   color: #a9a5a5;
+   display: inline-block;
+   cursor: pointer;
+   transition: all .3s;
+   transform: scale(1);
+}
+ 
+mat-icon
+{
+   width: 40px;
+   height: 40px;
+}
+  
+.content {
+   min-height : 100%;
+   min-width : 100%;
+   background-size:100% 100%;
+   background-repeat:no-repeat;
+   overflow-y: hidden;
+   overflow-x: hidden;
+   background-color: rgb(243, 244, 244);
+   /*background-image: url("./assets/images/watermark.png");*/
+} 
+
+.star-gold{
+   color: orange;
+}
+ 
+
+footer {
+   padding: 3px;
+   background-color: rgba(17, 15, 15, 0.644);
+   color: white;
+   height: 150px;
+ }
+
+.text-footer{
+   color: white;
+   margin-top: 50px;
+   margin-left: 100px;
+}
+
+.mat-dialog-container {
+   background: white;
+}
